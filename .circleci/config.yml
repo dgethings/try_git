@@ -7,6 +7,8 @@ jobs:
       - checkout
       - run:
           command: |
+            echo "RELEASE_TAG = $RELEASE_TAG"
+            echo "RELEASE_TAG_PROD = $RELEASE_TAG_PROD"
             echo "CIRCLE_TAG = $CIRCLE_TAG"
             [[ -n $CIRCLE_TAG ]] || export CIRCLE_TAG=$(git describe --always --tags)
             echo "CIRCLE_TAG = $CIRCLE_TAG"
