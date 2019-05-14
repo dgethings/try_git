@@ -8,7 +8,7 @@ jobs:
       - run:
           command: |
             echo "CIRCLE_TAG = $CIRCLE_TAG"
-            export my_ver=$(git describe --exact-match --tags $(git log -n1 --pretty='%h') 2>/dev/null || git describe --always --tags)
+            export my_ver=$([ -z $CIRCLE_TAG ] || git describe --always --tags)
             echo "my_ver = $my_ver"
 workflows:
   version: 2
