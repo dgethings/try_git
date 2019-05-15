@@ -12,6 +12,16 @@ jobs:
             echo "CIRCLE_TAG = $CIRCLE_TAG"
             [[ -n $CIRCLE_TAG ]] || export CIRCLE_TAG=$(git describe --always --tags)
             echo "CIRCLE_TAG = $CIRCLE_TAG"
+  deploy:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
+      - run:
+          command: |
+            echo $CIRCLE_TAG
+            CIRCLE_TAG=$(echo $CIRCLE_TAG | tr -d v)
+            echo $CIRCLE_TAG
 workflows:
   version: 2
   build:
@@ -19,4 +29,10 @@ workflows:
       - build:
           filters:
             tags:
-              only: /.*/
+              only: /^v\d+\.\d+\.\d+.*/
+      - deploy:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
