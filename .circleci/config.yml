@@ -6,6 +6,7 @@ jobs:
     steps:
       - checkout
       - run:
+          name: define $CIRCLE_TAG if not defined
           command: |
             echo "CIRCLE_TAG = '$CIRCLE_TAG'"
             [[ -n $CIRCLE_TAG ]] || export CIRCLE_TAG=$(git describe --always --tags)
@@ -16,6 +17,7 @@ jobs:
     steps:
       - checkout
       - run:
+          name: strip "v" from $CIRCLE_TAG
           command: |
             echo "CIRCLE_TAG = '$CIRCLE_TAG'"
             CIRCLE_TAG=$(echo $CIRCLE_TAG | tr -d v)
